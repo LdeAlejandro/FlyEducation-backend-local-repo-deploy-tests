@@ -14,7 +14,7 @@ RUN mvn dependency:go-offline
 COPY src ./src
 
 # Executar o build do Maven para gerar o arquivo JAR
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -X
 
 # Usar uma imagem base do OpenJDK para rodar a aplicação
 FROM openjdk:17-jdk-slim
