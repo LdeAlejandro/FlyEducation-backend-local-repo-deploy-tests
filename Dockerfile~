@@ -7,8 +7,8 @@ WORKDIR /app
 # Copiar o arquivo JAR da aplicação para o container
 COPY target/flyflix-0.0.1-SNAPSHOT.jar app.jar
 
-# Expor a porta que a aplicação vai rodar
+# Porta que a aplicação vai rodar
 EXPOSE 8080
 
-# Comando para rodar a aplicação
+# Rodar a aplicação
 ENTRYPOINT ["java", "-jar", "app.jar"]
