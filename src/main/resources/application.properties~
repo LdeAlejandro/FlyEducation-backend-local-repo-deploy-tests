@@ -2,24 +2,24 @@
 BASE.URL=http://localhost:8080
 
 # === Conexão principal - MySQL (FlyFlix) ===
-# MySQL Connection - Aiven
-spring.datasource.url=jdbc:mysql://mysql-flyflix-flytest.k.aivencloud.com:28991/defaultdb?ssl-mode=REQUIRED
-spring.datasource.username=avnadmin
-spring.datasource.password=your_password_here
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.jpa.hibernate.ddl-auto=always
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+spring.datasource.url=jdbc:mysql://localhost:3306/flyflix
+spring.datasource.username=root
+spring.datasource.password=123
+
+# Configurações básicas JPA
 spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.format_sql=true
-spring.sql.init.mode=always
-spring.jpa.defer-datasource-initialization=true
-
-
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 
 
 #flyway
 spring.flyway.enabled=false
 
+# INICIALIZAÇÃO DE DADOS
+spring.sql.init.mode=always
+spring.jpa.defer-datasource-initialization=true
 
 # Configuração de paginacão
 spring.data.web.pageable.page-parameter=pagina
