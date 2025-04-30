@@ -1,36 +1,28 @@
-# Step 1: Build the application using Maven and OpenJDK 17
-FROM maven:3.8.4-openjdk-17-slim AS builder
+# Stage 1: Build the application
+FROM eclipse-temurin:23-jdk AS builder
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy the pom.xml and the wrapper script
-COPY pom.xml ./
-COPY mvnw ./
-COPY mvnw.cmd ./
+# Copy the application code
+COPY . .
 
-# Make sure the mvnw script is executable
+# Given permissions to mvnw
 RUN chmod +x mvnw
 
-# Download dependencies (this will cache dependencies in Docker layers)
-RUN ./mvnw dependency:go-offline
-
-# Copy the rest of the source code
-COPY src ./src
-
-# Build the application (skip tests for faster build)
+# Build the application (requires Maven or Gradle)
 RUN ./mvnw clean package -DskipTests
 
-# Step 2: Run the application using OpenJDK 17
-FROM openjdk:17-jdk-slim
+# Stage 2: Run the application
+FROM eclipse-temurin:23-jre
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy the built .jar file from the builder image
-COPY --from=builder /app/target/flyflix-0.0.1-SNAPSHOT.jar app.jar
+# Copy the JAR file from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
 
-# Expose port for the application
+# Expose the port the app will run on
 EXPOSE 8080
 
 # Command to run the application
