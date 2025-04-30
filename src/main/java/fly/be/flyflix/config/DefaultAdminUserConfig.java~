@@ -35,7 +35,7 @@ public class DefaultAdminUserConfig implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
 
-        var roleAdmin = perfilUsuarioRepository.findByName(PerfilUsuario.Values.ADMIN.name().toLowerCase());
+        var roleAdmin = perfilUsuarioRepository.findByName(PerfilUsuario.Values.ADMIN.name());
         System.out.println("******************************************************************************************" );
         System.out.println("RoleAdmin: " + roleAdmin);
         System.out.println("******************************************************************************************" );

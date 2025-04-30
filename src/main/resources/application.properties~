@@ -3,9 +3,9 @@ BASE.URL=http://localhost:8080
 
 # === Conexão principal - PostgreSQL (FlyFlix) ===
 # PostgreSQL Connection - Render
-spring.datasource.url=jdbc:postgresql://dpg-d08o1s2dbo4c73e4qqmg-a.oregon-postgres.render.com:5432/flyflix
-spring.datasource.username=root
-spring.datasource.password=tf7yIQyYn3LjhxAt5Gri5eNNCqo8dFIr
+spring.datasource.url=jdbc:postgresql://localhost:5432/flyflix
+spring.datasource.username=admin
+spring.datasource.password=123
 spring.datasource.driver-class-name=org.postgresql.Driver
 
 # Configura??es b?sicas JPA
@@ -13,7 +13,6 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
-
 
 #flyway
 spring.flyway.enabled=false
