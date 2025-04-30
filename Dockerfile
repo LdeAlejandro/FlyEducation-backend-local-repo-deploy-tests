@@ -1,5 +1,5 @@
-# Step 1: Build the application
-FROM maven:3.8.4-openjdk-21-slim AS builder
+# Step 1: Build the application using OpenJDK 21 and Maven
+FROM openjdk:21-jdk-slim as builder
 
 # Set working directory
 WORKDIR /app
@@ -16,8 +16,8 @@ COPY src ./src
 # Build the application (skip tests for faster build)
 RUN mvn clean package -DskipTests
 
-# Step 2: Run the application
-FROM openjdk:17-jdk-slim
+# Step 2: Run the application using OpenJDK 21 (same as build stage)
+FROM openjdk:21-jdk-slim
 
 # Set working directory
 WORKDIR /app
