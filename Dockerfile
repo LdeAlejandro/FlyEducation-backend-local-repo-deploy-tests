@@ -1,31 +1,28 @@
-# Step 1: Build the application using OpenJDK 21 and Maven
+# Step 1: Build the application using OpenJDK 21
 FROM openjdk:21-jdk-slim as builder
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy the pom.xml and download dependencies
-COPY pom.xml .
+# Copy the application code
+COPY . .
 
-# Download dependencies (this will cache dependencies in Docker layers)
-RUN mvn dependency:go-offline
+# Given permissions to mvnw
+RUN chmod +x mvnw
 
-# Copy the rest of the source code
-COPY src ./src
+# Build the application (requires Maven or Gradle)
+RUN ./mvnw clean package -DskipTests
 
-# Build the application (skip tests for faster build)
-RUN mvn clean package -DskipTests
-
-# Step 2: Run the application using OpenJDK 21 (same as build stage)
+# Stage 2: Run the application
 FROM openjdk:21-jdk-slim
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy the built .jar file from the builder image
-COPY --from=builder /app/target/flyflix-0.0.1-SNAPSHOT.jar app.jar
+# Copy the JAR file from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
 
-# Expose port for the application
+# Expose the port the app will run on
 EXPOSE 8080
 
 # Command to run the application
