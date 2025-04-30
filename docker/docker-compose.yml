@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres_flyflix
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=flyflix
+      - TZ=America/Sao_Paulo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
