@@ -1,29 +1,32 @@
-# Step 1: Build the application using OpenJDK 21
-FROM openjdk:21-jdk-slim as builder
+# Usar uma imagem base com Maven e JDK
+FROM maven:3.8.4-openjdk-17-slim AS builder
 
-# Set the working directory
+# Definir o diretório de trabalho
 WORKDIR /app
 
-# Copy the application code
-COPY . .
+# Copiar o arquivo pom.xml e o restante dos arquivos do projeto
+COPY pom.xml .
 
-# Given permissions to mvnw
-RUN chmod +x mvnw
+# Baixar as dependências do Maven (isso otimiza o processo de build)
+RUN mvn dependency:go-offline
 
-# Build the application (requires Maven or Gradle)
-RUN ./mvnw clean package -DskipTests -X
+# Copiar o restante do código para o container
+COPY src ./src
 
-# Stage 2: Run the application
-FROM openjdk:21-jdk-slim
+# Executar o build do Maven para gerar o arquivo JAR
+RUN mvn clean package -DskipTests
 
-# Set the working directory
+# Usar uma imagem base do OpenJDK para rodar a aplicação
+FROM openjdk:17-jdk-slim
+
+# Definir o diretório de trabalho no container
 WORKDIR /app
 
-# Copy the JAR file from the builder stage
-COPY --from=builder /app/target/*.jar app.jar
+# Copiar o JAR gerado pelo Maven (do estágio anterior) para o container
+COPY --from=builder /app/target/flyflix-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose the port the app will run on
+# Expor a porta 8080
 EXPOSE 8080
 
-# Command to run the application
+# Comando para rodar a aplicação
 ENTRYPOINT ["java", "-jar", "app.jar"]
