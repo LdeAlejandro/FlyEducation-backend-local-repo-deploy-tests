@@ -1,32 +1,37 @@
-# Usar uma imagem base com Maven e JDK
-FROM maven:3.8.4-openjdk-17-slim AS builder
+# Step 1: Build the application using Maven and OpenJDK 21
+FROM maven:3.8.4-openjdk-21-slim as builder
 
-# Definir o diretório de trabalho
+# Set working directory
 WORKDIR /app
 
-# Copiar o arquivo pom.xml e o restante dos arquivos do projeto
-COPY pom.xml .
+# Copy the pom.xml and the wrapper script
+COPY pom.xml ./
+COPY mvnw ./
+COPY mvnw.cmd ./
 
-# Baixar as dependências do Maven (isso otimiza o processo de build)
-RUN mvn dependency:go-offline
+# Make sure the mvnw script is executable
+RUN chmod +x mvnw
 
-# Copiar o restante do código para o container
+# Download dependencies (this will cache dependencies in Docker layers)
+RUN ./mvnw dependency:go-offline
+
+# Copy the rest of the source code
 COPY src ./src
 
-# Executar o build do Maven para gerar o arquivo JAR
-RUN mvn clean package -DskipTests
+# Build the application (skip tests for faster build)
+RUN ./mvnw clean package -DskipTests
 
-# Usar uma imagem base do OpenJDK para rodar a aplicação
-FROM openjdk:17-jdk-slim
+# Step 2: Run the application using OpenJDK 21
+FROM openjdk:21-jdk-slim
 
-# Definir o diretório de trabalho no container
+# Set working directory
 WORKDIR /app
 
-# Copiar o JAR gerado pelo Maven (do estágio anterior) para o container
+# Copy the built .jar file from the builder image
 COPY --from=builder /app/target/flyflix-0.0.1-SNAPSHOT.jar app.jar
 
-# Expor a porta 8080
+# Expose port for the application
 EXPOSE 8080
 
-# Comando para rodar a aplicação
+# Command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
