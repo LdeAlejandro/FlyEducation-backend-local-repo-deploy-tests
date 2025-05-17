@@ -7,5 +7,7 @@ public record DadosDetalhamentoAula(
         Integer ordem,
         Integer duracaoEstimada,
         String linkConteudo,
-        Long moduloId
+        Long moduloId,
+        String urlCapa
 ) {}
+

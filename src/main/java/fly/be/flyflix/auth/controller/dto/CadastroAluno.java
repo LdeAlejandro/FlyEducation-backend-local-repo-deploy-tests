@@ -23,7 +23,8 @@ public record CadastroAluno(
         String senha,
 
         //cpf
-        @CPF
+        @CPF(message = "CPF inválido")
+        @NotBlank(message = "O CPF é obrigatório")
         String cpf,
 
         @NotNull
