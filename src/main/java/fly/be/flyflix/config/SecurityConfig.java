@@ -23,6 +23,7 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -34,6 +35,13 @@ public class SecurityConfig {
 
     @Value("${jwt.private.key}")
     private RSAPrivateKey privateKey;
+    @Value("${app.cors.allowed-origins}")
+    private final String[] allowedOrigins;
+
+    public SecurityConfig(String[] allowedOrigins) {
+        this.allowedOrigins = allowedOrigins;
+    }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,7 +49,8 @@ public class SecurityConfig {
         //modificar cors on deploy
         http.cors(cors -> cors.configurationSource(request -> {
             CorsConfiguration config = new CorsConfiguration();
-            config.addAllowedOrigin("*"); // Allow all origins
+            config.setAllowedOrigins(Arrays.asList(allowedOrigins)); // domínios do .properties
+            config.setAllowCredentials(true); // necessário para Authorization
             config.addAllowedMethod("*"); // Allow all HTTP methods (GET, POST, etc.)
             config.addAllowedHeader("*"); // Allow all headers
             return config;
