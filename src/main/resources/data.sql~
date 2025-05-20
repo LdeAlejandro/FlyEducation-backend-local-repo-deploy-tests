@@ -1,2 +1,14 @@
-INSERT  INTO perfiles (perfil_id, name) VALUES (1, 'admin');
-INSERT  INTO perfiles (perfil_id, name) VALUES (2, 'aluno');
+-- Insert the admin profile, ignore if exists
+INSERT INTO perfiles (perfil_id, name) 
+VALUES (1, 'admin') 
+ON CONFLICT (perfil_id) DO NOTHING;
+
+-- Insert the aluno profile, ignore if exists
+INSERT INTO perfiles (perfil_id, name) 
+VALUES (2, 'aluno') 
+ON CONFLICT (perfil_id) DO NOTHING;
+
+
+ALTER TABLE alunos ADD COLUMN login VARCHAR(255) NOT NULL;
+ALTER TABLE alunos ADD COLUMN senha VARCHAR(255) NOT NULL;
+ALTER TABLE alunos ADD COLUMN cpf VARCHAR(255) NOT NULL;

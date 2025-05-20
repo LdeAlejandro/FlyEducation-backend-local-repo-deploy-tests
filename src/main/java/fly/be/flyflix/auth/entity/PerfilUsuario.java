@@ -25,8 +25,7 @@ public class PerfilUsuario {
     // enum class for const values for constants admin and basic
     public enum Values {
         ADMIN(1L),
-        ALUNO(2L); //
-
+        ALUNO(2L);
 
         long roleId;
 

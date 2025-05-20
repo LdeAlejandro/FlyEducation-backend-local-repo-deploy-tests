@@ -1,0 +1,4 @@
+package fly.be.flyflix.config;
+
+public class OpenAPIConfig {
+}

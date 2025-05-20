@@ -7,3 +7,5 @@ ON CONFLICT (perfil_id) DO NOTHING;
 INSERT INTO perfiles (perfil_id, name) 
 VALUES (2, 'aluno') 
 ON CONFLICT (perfil_id) DO NOTHING;
+
+

@@ -1,0 +1,42 @@
+package fly.be.flyflix.auth.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "usuarios_base")
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
+public abstract class UsuarioBase {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    @Column(unique = true, nullable = false)
+    protected String cpf;
+
+    @Column(unique = true, nullable = false)
+    protected String login;
+
+    @Column(nullable = false)
+    protected String senha;
+
+    @ManyToMany
+    @JoinTable(
+            name = "usuario_perfil",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "perfil_id")
+    )
+    protected Set<PerfilUsuario> perfiles = new HashSet<>();
+}

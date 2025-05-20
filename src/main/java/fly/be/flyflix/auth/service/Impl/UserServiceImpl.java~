@@ -79,27 +79,22 @@ public class UserServiceImpl implements UserService {
 
         }
 
-        //Criando objeto com os dados do usuario
-        Usuario usuario = Usuario.builder()
-                .cpf(dados.cpf())
-                .login(dados.email())
-                .senha(passwordEncoder.encode(dados.senha()))
-                .perfiles(Set.of(usuarioPerfil))  // Asignando Rol de ADMIN OU ALUNO
-                .build();
-        usuarioRepository.save(usuario);
 
 
         //Criando objeto com os dados do aluno
         PerfilAluno perfilAlunoEnum = PerfilAluno.valueOf(dados.perfilAluno().replace(" ", "_").toUpperCase());
         Aluno aluno = Aluno.builder()
-                    .cpf(dados.cpf())
-                    .email(dados.email())
-                    .usuario(usuario)
-                    .nome(dados.nome())
-                    .dataNascimento(dados.dataNascimento())
-                    .perfilAluno(perfilAlunoEnum)
-                    .ativo(true)
-                    .build();
+                .cpf(dados.cpf())
+                .login(dados.email())
+                .senha(passwordEncoder.encode(dados.senha()))
+                .perfiles(Set.of(usuarioPerfil)) // herdado de UsuarioBase
+                .nome(dados.nome())
+                .email(dados.email())
+                .dataNascimento(dados.dataNascimento())
+                .perfilAluno(perfilAlunoEnum)
+                .ativo(true)
+                .build();
+
 
         alunoRepository.save(aluno);
 
@@ -111,7 +106,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<Map<String, Object>> atualizarAluno(DadosAtualizacaoAluno dados) {
         var alunoDB = alunoRepository.getReferenceById(dados.id());
-        var usuarioDB = alunoDB.getUsuario();
 
         PerfilAluno perfilAlunoEnum = PerfilAluno.valueOf(dados.perfilAluno().replace(" ", "_").toUpperCase());
 
@@ -126,8 +120,8 @@ public class UserServiceImpl implements UserService {
             alunoDB.setAtivo(dados.ativo());
 
             //setar os dados do usuario do aluno email e cpf
-            usuarioDB.setLogin(dados.email());
-            usuarioDB.setCpf(dados.cpf());
+             alunoDB.setLogin(dados.email());
+             alunoDB.setCpf(dados.cpf());
             //atualizar o aluno
             alunoRepository.save(alunoDB);
 
@@ -187,7 +181,7 @@ public class UserServiceImpl implements UserService {
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @Override
     public ResponseEntity<Map<String, Object>> obterAlunoByEmail(String email) {
-        Optional<ObterAluno> alunoDB = alunoRepository.findByEmail(email).map(ObterAluno::new);
+        Optional<ObterAluno> alunoDB = alunoRepository.findByEmailContaining(email).map(ObterAluno::new);
 
         if (alunoDB.isEmpty()) {
             Map<String, Object> response = new HashMap<>();
