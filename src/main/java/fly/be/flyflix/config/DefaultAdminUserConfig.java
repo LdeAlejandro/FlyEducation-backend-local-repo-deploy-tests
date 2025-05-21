@@ -41,33 +41,12 @@ public class DefaultAdminUserConfig implements CommandLineRunner {
         System.out.println("******************************************************************************************" );
         final String adminEmail = "admin@admin.com";
         final String adminCpf = "68669859432";
-        var userAdmin = usuarioRepository.findByLogin(adminEmail);
         var alunoAdmin = alunoRepository.findByEmail(adminEmail);
 
         if (roleAdmin == null) {
             System.out.println("Role ADMIN not found in the database. ");
             return;
         }
-        userAdmin.ifPresentOrElse(
-                // User admin already exists
-                user ->{
-
-                    System.out.println("Admin already exist");
-
-                },
-                () -> { // User admin not exists and will be created
-                    var usuario = new Usuario();
-                    usuario.setLogin(adminEmail);
-                    usuario.setCpf(adminCpf);
-                    usuario.setSenha(passwordEncoder.encode("FlyAdmin")); // SENHA ADMINISTRADOR
-                    usuario.setPerfiles(Set.of(roleAdmin));
-                    usuarioRepository.save(usuario);
-
-                    System.out.println("User admin created");
-                    System.out.println(usuario);
-
-
-                });
 
         alunoAdmin.ifPresentOrElse(
                 // User Aluno admin already exists
@@ -79,8 +58,11 @@ public class DefaultAdminUserConfig implements CommandLineRunner {
                 () -> { // User admin aluno not exists and will be created
                     var aluno = new Aluno();
                     aluno.setNome("Admin");
+                    aluno.setLogin(adminEmail);
                     aluno.setEmail(adminEmail);
+                    aluno.setSenha(passwordEncoder.encode("FlyAdmin")); // SENHA ADMINISTRADOR
                     aluno.setCpf(adminCpf);
+                    aluno.setPerfiles(Set.of(roleAdmin));
                     aluno.setPerfilAluno(PerfilAluno.valueOf("ALL"));
                     aluno.setAtivo(true);
                     aluno.setDataNascimento(LocalDate.of(2022, 1, 17));

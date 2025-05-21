@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @SuperBuilder
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -24,11 +23,12 @@ public class Aluno extends UsuarioBase {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    @Past(message = "Data de nascimento inválida")
     private LocalDate dataNascimento;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private PerfilAluno perfilAluno;
 
-    @Column(nullable = false)
-    private Boolean ativo = true;
 }

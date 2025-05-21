@@ -4,6 +4,7 @@ import fly.be.flyflix.auth.controller.dto.ResetarSenha;
 import fly.be.flyflix.auth.controller.dto.SolicitarResetSenha;
 import fly.be.flyflix.auth.entity.PasswordResetToken;
 import fly.be.flyflix.auth.entity.Usuario;
+import fly.be.flyflix.auth.entity.UsuarioBase;
 import fly.be.flyflix.auth.repository.PasswordResetTokenRepository;
 import fly.be.flyflix.auth.repository.UsuarioRepository;
 import fly.be.flyflix.auth.service.EmailService;
@@ -97,7 +98,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
             return ResponseEntity.status(HttpStatus.GONE).body(response);
         }
 
-        Usuario usuario = usuariotoken.get().getUsuario();
+        Usuario usuario = (Usuario) usuariotoken.get().getUsuario();
 
         usuario.setSenha(passwordEncoder.encode(dados.novaSenha()));
 

@@ -9,3 +9,4 @@ VALUES (2, 'aluno')
 ON CONFLICT (perfil_id) DO NOTHING;
 
 
+DELETE FROM usuario_perfil WHERE usuario_id NOT IN (SELECT id FROM usuarios_base);

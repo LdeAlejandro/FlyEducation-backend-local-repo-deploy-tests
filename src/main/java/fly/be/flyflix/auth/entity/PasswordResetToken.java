@@ -19,8 +19,9 @@ public class PasswordResetToken {
 
     private String token;
 
-    @OneToOne
-    private Usuario usuario;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private UsuarioBase usuario;
 
     private LocalDateTime expirationDate;
 
