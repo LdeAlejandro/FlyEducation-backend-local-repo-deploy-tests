@@ -11,8 +11,6 @@ public class FlyflixApplication  {
 
 		SpringApplication.run(FlyflixApplication.class, args);
 
-		Aluno aluno = Aluno.builder().nome("teste").build();
-		System.out.println(aluno.getNome());
 	}
 
 }

@@ -3,16 +3,18 @@ BASE.URL=http://localhost:8080
 
 # === Conexão principal - PostgreSQL (FlyFlix) ===
 # PostgreSQL Connection - Render
-#spring.datasource.url=jdbc:postgresql://dpg-d08o1s2dbo4c73e4qqmg-a.oregon-postgres.render.com:5432/flyflix
-#spring.datasource.username=root
-#spring.datasource.password=tf7yIYqYn3LjhxAt5Gri5eNNCqo8dFIr
-#spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql://dpg-d08o1s2dbo4c73e4qqmg-a.oregon-postgres.render.com:5432/flyflix
+spring.datasource.username=root
+spring.datasource.password=tf7yIYqYn3LjhxAt5Gri5eNNCqo8dFIr
+spring.datasource.driver-class-name=org.postgresql.Driver
 
 #Local
-spring.datasource.url=jdbc:postgresql://localhost:5432/flyflix
-spring.datasource.username=admin
-spring.datasource.password=123
-spring.datasource.driver-class-name=org.postgresql.Driver
+#spring.datasource.url=jdbc:postgresql://localhost:5432/flyflix
+#spring.datasource.username=admin
+#spring.datasource.password=123
+#spring.datasource.driver-class-name=org.postgresql.Driver
+
+#deletar antigas tabelas 
 
 # Configura??es b?sicas JPA
 spring.jpa.hibernate.ddl-auto=update
