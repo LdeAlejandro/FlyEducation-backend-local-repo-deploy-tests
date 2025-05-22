@@ -43,11 +43,12 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     @Override
     public ResponseEntity<Map<String, Object>> solicitarResetSenha(SolicitarResetSenha dto) {
 
-        var usuarioEmailDB = usuarioRepository.findByLogin(dto.email());
+        var usuarioEmailDB = usuarioRepository.findByLoginIgnoreCase(dto.email().trim());
+
 
         if (usuarioEmailDB.isEmpty()) {
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Usuario nao encontrado");
+            response.put("message", "Usuario: " +dto.email()+ " nao encontrado");
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }

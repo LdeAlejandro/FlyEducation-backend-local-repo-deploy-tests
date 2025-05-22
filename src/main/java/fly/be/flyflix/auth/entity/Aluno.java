@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Aluno extends UsuarioBase {
+public class Aluno extends Usuario {
 
     @Column(nullable = false)
     private String nome;
