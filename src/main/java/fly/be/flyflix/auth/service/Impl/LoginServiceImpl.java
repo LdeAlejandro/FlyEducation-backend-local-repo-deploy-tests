@@ -40,7 +40,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public ResponseEntity<LoginResponse> login(LoginRequest loginRequest) {
 
-        var usuario = usuarioRepository.findByLogin(loginRequest.login());
+        var usuario = alunoRepository.findByLogin(loginRequest.login());
 
 
         //Validar se login esta correto se o usuario existir e se a senha estiver correta

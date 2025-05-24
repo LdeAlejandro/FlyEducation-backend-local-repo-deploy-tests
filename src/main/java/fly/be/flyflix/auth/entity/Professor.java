@@ -8,14 +8,14 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "alunos")
+@Table(name = "professores")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Aluno extends Usuario {
+public class Professor extends UsuarioBase {
 
     @Column(nullable = false)
     private String nome;
@@ -27,7 +27,5 @@ public class Aluno extends Usuario {
     @Past(message = "Data de nascimento inválida")
     private LocalDate dataNascimento;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private PerfilAluno perfilAluno;
 }
+
