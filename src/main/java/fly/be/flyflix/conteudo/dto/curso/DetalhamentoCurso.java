@@ -9,8 +9,6 @@ public record DetalhamentoCurso(
         String titulo,
         String descricao,
         String imagemCapa,
-        List<String> tags,
-        String nivel,
         Long autorId
 ) {
     public DetalhamentoCurso(Curso curso) {
@@ -19,8 +17,6 @@ public record DetalhamentoCurso(
                 curso.getTitulo(),
                 curso.getDescricao(),
                 curso.getImagemCapa(),
-                curso.getTags(),
-                curso.getNivel(),
                 curso.getAutorId()
         );
     }

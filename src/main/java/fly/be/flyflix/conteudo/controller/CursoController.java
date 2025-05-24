@@ -35,8 +35,6 @@ public class CursoController {
         curso.setTitulo(dados.titulo());
         curso.setDescricao(dados.descricao());
         curso.setImagemCapa(dados.imagemCapa());
-        curso.setTags(dados.tags());
-        curso.setNivel(dados.nivel());
         curso.setAutorId(dados.autorId());
 
         repository.save(curso);
@@ -64,8 +62,6 @@ public class CursoController {
                     curso.setTitulo(dados.titulo());
                     curso.setDescricao(dados.descricao());
                     curso.setImagemCapa(dados.imagemCapa());
-                    curso.setTags(dados.tags());
-                    curso.setNivel(dados.nivel());
                     curso.setAutorId(dados.autorId());
                     return ResponseEntity.ok(new DetalhamentoCurso(curso));
                 })
@@ -82,22 +78,4 @@ public class CursoController {
         repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-    @GetMapping("/recomendados")
-    public ResponseEntity<List<CursoResumoDTO>> recomendarCursos(@RequestParam Long usuarioId) {
-        return ResponseEntity.ok(cursoService.getCursosRecomendados(usuarioId));
-    }
-
-    @GetMapping("/novos")
-    public ResponseEntity<List<CursoResumoDTO>> cursosNovos() {
-        return ResponseEntity.ok(cursoService.getCursosNovos());
-    }
-
-    @GetMapping("/populares")
-    public ResponseEntity<List<CursoResumoDTO>> cursosPopulares() {
-        return ResponseEntity.ok(cursoService.getCursosPopulares());
-    }
-
-
-
-
 }

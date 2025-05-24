@@ -15,26 +15,7 @@ public class CursoService {
     @Autowired
     private CursoRepository cursoRepository;
 
-    public void incrementarVisualizacoes(Long cursoId) {
-        Curso curso = cursoRepository.findById(cursoId)
-                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
-        curso.setVisualizacoes(curso.getVisualizacoes() + 1);
-        cursoRepository.save(curso);
-    }
 
-    // Recomendados por comportamento de usuários semelhantes
-    public List<CursoResumoDTO> getCursosRecomendados(Long usuarioId) {
-        List<Curso> cursos = cursoRepository.findCursosRecomendados(usuarioId);
-        return cursos.stream().map(CursoResumoDTO::new).toList();
-    }
 
-    public List<CursoResumoDTO> getCursosNovos() {
-        List<Curso> cursos = cursoRepository.findTop10ByOrderByDataPublicacaoDesc();
-        return cursos.stream().map(CursoResumoDTO::new).toList();
-    }
 
-    public List<CursoResumoDTO> getCursosPopulares() {
-        List<Curso> cursos = cursoRepository.findTop10ByOrderByVisualizacoesDesc();
-        return cursos.stream().map(CursoResumoDTO::new).toList();
-    }
 }

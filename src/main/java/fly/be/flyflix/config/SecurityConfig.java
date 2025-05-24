@@ -36,12 +36,7 @@ public class SecurityConfig {
     @Value("${jwt.private.key}")
     private RSAPrivateKey privateKey;
     @Value("${app.cors.allowed-origins}")
-    private final String[] allowedOrigins;
-
-    public SecurityConfig(String[] allowedOrigins) {
-        this.allowedOrigins = allowedOrigins;
-    }
-
+    private String[] allowedOrigins;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
